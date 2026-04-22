@@ -1,0 +1,37 @@
+{
+    "name": "Combo New Year 2026",
+    "short_name": "All Inclusive",
+    "description": "КОМПЛЕКС ALL INCLUSIVE",
+    "start_url": "./index.html",
+    "id": "/combo2026",
+    "display": "standalone",
+    "background_color": "#232220",
+    "theme_color": "#232220",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
