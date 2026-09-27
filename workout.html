@@ -11,16 +11,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="app.css">
-  <title>Тренировки для осанки</title>
+  <title>Тренировка</title>
 </head>
 <body>
   <div class="app">
     <header class="topbar">
-      <a class="icon-btn" href="main.html" aria-label="Назад" data-icon="back"></a>
-      <h1 id="list-title">Тренировки для осанки</h1>
+      <a class="icon-btn" id="back" href="main.html" aria-label="Назад" data-icon="back"></a>
+      <h1 id="w-title">Тренировка</h1>
     </header>
-    <div id="intro"></div>
-    <div class="workout-grid" id="grid"></div>
+    <div id="content"></div>
   </div>
   <script src="data.js"></script>
   <script src="app.js"></script>
@@ -28,7 +27,7 @@
   <script>
     document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = ICONS[el.dataset.icon]);
     renderTabbar('');
-    renderList('posture');
+    renderWorkout();
   </script>
 </body>
 </html>

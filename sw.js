@@ -1,152 +1,122 @@
-const CACHE_NAME = 'combo-pwa-v1';
-const META_CACHE  = 'combo-meta-v1';   // отдельный кеш для метаданных
-const DAYS_90_MS  = 90 * 24 * 60 * 60 * 1000; // 90 дней в миллисекундах
-
-// Получить (или создать при первом запуске) метку времени установки
-async function getInstallTimestamp() {
-  const cache    = await caches.open(META_CACHE);
-  const existing = await cache.match('install-timestamp');
-
-  if (existing) {
-    const text = await existing.text();
-    return parseInt(text, 10);
-  }
-
-  // Первый запуск — записываем текущее время
-  const now = Date.now();
-  await cache.put('install-timestamp', new Response(String(now), {
-    headers: { 'Content-Type': 'text/plain' }
-  }));
-  return now;
-}
+// Service Worker: приложение открывается и без интернета.
+// Страницы и картинки берутся из сети, а при отсутствии связи — из кэша. Видео с BotHelp не кэшируются.
+const CACHE_NAME = 'combo-pwa-v2';
+const KEEP = [CACHE_NAME, 'combo-meta-v1'];   // кэши, которые не удаляем при обновлении
+const PRECACHE = [
+  "./",
+  "./access-control.js",
+  "./app.css",
+  "./app.js",
+  "./bonus.html",
+  "./data.js",
+  "./expired.html",
+  "./facecare.html",
+  "./hands.html",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./index.html",
+  "./main.html",
+  "./manifest.json",
+  "./menu-1300.html",
+  "./menu-belly-data.js",
+  "./menu-belly.html",
+  "./posture.html",
+  "./press.html",
+  "./profile.html",
+  "./trening.html",
+  "./useful-links.html",
+  "./workout.html",
+  "./workouts.js",
+  "./images/cover-1300.jpg",
+  "./images/cover-belly.jpg",
+  "./images/glutes1.jpg",
+  "./images/glutes2.jpg",
+  "./images/glutes3.jpg",
+  "./images/glutes4.jpg",
+  "./images/glutes5.jpg",
+  "./images/glutes6.jpg",
+  "./images/glutes7.jpg",
+  "./images/glutes8.jpg",
+  "./images/hands0.jpg",
+  "./images/hands1.jpg",
+  "./images/hands2.jpg",
+  "./images/hands3.jpg",
+  "./images/hands4.jpg",
+  "./images/hands5.jpg",
+  "./images/hands6.jpg",
+  "./images/main.JPG",
+  "./images/natali.JPG",
+  "./images/posture1.jpg",
+  "./images/posture2.jpg",
+  "./images/posture3.jpg",
+  "./images/posture4.jpg",
+  "./images/posture5.jpg",
+  "./images/posture6.jpg",
+  "./images/posture7.jpg",
+  "./images/press1.jpg",
+  "./images/press2.jpg",
+  "./images/press3.jpg",
+  "./images/press4.jpg",
+  "./images/press5.jpg",
+  "./images/press6.jpg",
+  "./images/press7.jpg",
+  "./images/press8.jpg",
+  "./images/belly/p01.jpg",
+  "./images/belly/p02.jpg",
+  "./images/belly/p03.jpg",
+  "./images/belly/p04.jpg",
+  "./images/belly/p05.jpg",
+  "./images/belly/p06.jpg",
+  "./images/belly/p07.jpg",
+  "./images/belly/p08.jpg",
+  "./images/belly/p09.jpg",
+  "./images/belly/p10.jpg",
+  "./images/belly/p11.jpg",
+  "./images/belly/p12.jpg",
+  "./images/belly/p13.jpg",
+  "./images/belly/p14.jpg",
+  "./images/belly/p15.jpg",
+  "./images/belly/p16.jpg",
+  "./images/belly/p17.jpg",
+  "./images/belly/p18.jpg"
+];
 
 self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache =>
+      Promise.all(PRECACHE.map(url => cache.add(url).catch(() => {})))
+    )
+  );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    (async () => {
-      // Инициализируем метку установки при первой активации
-      await getInstallTimestamp();
-
-      // Удаляем устаревшие кеши
-      const allCaches = await caches.keys();
-      await Promise.all(
-        allCaches
-          .filter(name => name !== CACHE_NAME && name !== META_CACHE)
-          .map(name => caches.delete(name))
-      );
-
-      await self.clients.claim();
-    })()
+    caches.keys().then(names => Promise.all(names.filter(n => !KEEP.includes(n)).map(n => caches.delete(n))))
   );
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
+  const req = event.request;
+  const url = new URL(req.url);
+  if (req.method !== 'GET' || !url.protocol.startsWith('http')) return;
+  if (url.hostname.includes('bothelp')) return;        // видео — только онлайн
+  if (/\.pdf$/i.test(url.pathname)) return;             // большие PDF не храним
+  if (req.headers.get('range')) return;
 
-  // Не кешируем видео и внешние ресурсы
-  if (
-    url.hostname.includes('bothelp') ||
-    url.hostname.includes('file-storage') ||
-    !url.protocol.startsWith('http')
-  ) {
-    return;
-  }
-
-  event.respondWith(
-    (async () => {
-      const installTime = await getInstallTimestamp();
-      const expiryDate  = installTime + DAYS_90_MS;
-      const now         = Date.now();
-
-      // Проверяем, прошло ли 90 дней с момента установки
-      if (now >= expiryDate) {
-        const expiredDate = new Date(expiryDate).toLocaleDateString('ru-RU', {
-          day: 'numeric', month: 'long', year: 'numeric'
-        });
-        return new Response(
-          `<!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Курс завершён</title>
-            <style>
-              body {
-                margin: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                background: linear-gradient(135deg, #c681f4 0%, #d38080 51%, #DAE2F8 100%);
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                color: #fff;
-              }
-              .container {
-                text-align: center;
-                padding: 2rem;
-                max-width: 500px;
-              }
-              h1 {
-                font-size: 2.5rem;
-                margin: 0 0 1rem;
-                color: #1a1a1a;
-                animation: fadeIn 1s ease-out;
-              }
-              p {
-                font-size: 1.2rem;
-                color: rgba(0,0,0,0.75);
-                line-height: 1.6;
-                animation: fadeIn 1.5s ease-out;
-              }
-              .emoji {
-                font-size: 4rem;
-                margin-bottom: 1rem;
-                animation: bounce 2s infinite;
-              }
-              @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to   { opacity: 1; transform: translateY(0); }
-              }
-              @keyframes bounce {
-                0%, 100% { transform: translateY(0); }
-                50%       { transform: translateY(-20px); }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <div class="emoji">👑</div>
-              <h1>Поздравляем!</h1>
-              <p>Вы успешно завершили курс «ALL INCLUSIVE»!</p>
-              <p style="font-size:0.9rem;margin-top:2rem;opacity:0.7;">
-                Доступ закрыт ${expiredDate}
-              </p>
-            </div>
-          </body>
-          </html>`,
-          {
-            status: 403,
-            headers: { 'Content-Type': 'text/html; charset=utf-8' }
-          }
-        );
+  event.respondWith((async () => {
+    try {
+      const response = await fetch(req);
+      if (response.status === 200 || response.type === 'opaque') {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(req, response.clone());
       }
-
-      // До истечения срока — работаем нормально
-      try {
-        const response = await fetch(event.request);
-        if (response.status === 200 && event.request.method === 'GET') {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(event.request, response.clone());
-        }
-        return response;
-      } catch (error) {
-        const cached = await caches.match(event.request);
-        if (cached) return cached;
-        throw error;
-      }
-    })()
-  );
+      return response;
+    } catch (error) {
+      const cached = await caches.match(req, { ignoreSearch: req.mode === 'navigate' });
+      if (cached) return cached;
+      throw error;
+    }
+  })());
 });

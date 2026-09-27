@@ -1,12 +1,12 @@
 {
-    "name": "Combo New Year 2026",
-    "short_name": "All Inclusive",
-    "description": "КОМПЛЕКС ALL INCLUSIVE",
+    "name": "Комбо 5 программ",
+    "short_name": "Комбо 5 программ",
+    "description": "Комплекс «Комбо 5 программ»",
     "start_url": "./index.html",
     "id": "/combo2026",
     "display": "standalone",
-    "background_color": "#232220",
-    "theme_color": "#232220",
+    "background_color": "#1d1433",
+    "theme_color": "#7a4bd1",
     "orientation": "portrait",
     "icons": [
         {
@@ -33,5 +33,6 @@
             "type": "image/png",
             "purpose": "maskable"
         }
-    ]
+    ],
+    "scope": "./"
 }

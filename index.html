@@ -1,57 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
+  <script src="access-control.js"></script>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
-  <title>ALL INCLUSIVE - Начать</title>
-
-  <!-- PWA Manifest -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <title>Комбо 5 программ</title>
   <link rel="manifest" href="manifest.json">
-
-  <!-- iOS PWA настройки -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="All Inclusive" />
+  <meta name="apple-mobile-web-app-title" content="Комбо 5 программ" />
   <link rel="apple-touch-icon" href="icon-192.png">
-
-  <meta name="theme-color" content="#232220" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'app-bg': '#cfc7b8',
-            'card-bg': '#fefdfb',
-            'dark-charcoal': '#232220',
-            'text-secondary': '#6B7280',
-            'accent-purple': '#f0c7ff',
-            'accent-green': '#e7fcbb',
-            'accent-beige': '#d5cdbe',
-          },
-          borderRadius: {
-            '4xl': '2rem',
-            '5xl': '2.5rem',
-          },
-          animation: {
-            'ken-burns': 'ken-burns 20s ease-out infinite',
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            'ken-burns': {
-              '0%': { transform: 'scale(1) translate(0, 0)' },
-              '50%': { transform: 'scale(1.1) translate(-2%, 2%)' },
-              '100%': { transform: 'scale(1) translate(0, 0)' },
-            },
-          }
-        },
-      },
-    }
-  </script>
-  <link rel="stylesheet" href="./index.css">
-
+  <meta name="theme-color" content="#3a1f6e" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -63,285 +25,155 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ===== Install Banner (Forced Fullscreen) ===== */
-    .install-banner {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #2a2028 0%, #232220 100%);
-      color: #fff;
-      padding: 2rem 1.5rem;
-      z-index: 99999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 1.5rem;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    .install-banner.show {
-      display: flex;
-    }
-
-    .install-banner-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .install-banner-icon {
-      width: 84px;
-      height: 84px;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      flex-shrink: 0;
-    }
-
-    .install-banner-text {
-      width: 100%;
-    }
-
-    .install-banner-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin: 0 0 0.5rem;
-      line-height: 1.2;
-    }
-
-    .install-banner-subtitle {
-      font-size: 1rem;
-      opacity: 0.85;
+    body {
       margin: 0;
-      line-height: 1.4;
-    }
-
-    .install-banner-btn {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      background: linear-gradient(90deg, #c681f4 0%, #d38080 51%, #DAE2F8 100%);
-      background-size: 200% auto;
+      background: #1d1433;
       color: #fff;
-      border: none;
-      border-radius: 30px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      cursor: pointer;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(198, 129, 244, 0.35);
-      transition: transform 0.1s ease, background-position 0.3s ease;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
-    .install-banner-btn:hover {
-      background-position: right center;
-    }
-
-    .install-banner-btn:active {
-      transform: scale(0.96);
-    }
-
-    .install-banner-steps {
-      font-size: 1rem;
-      opacity: 0.9;
-      text-align: center;
-      line-height: 1.6;
-      max-width: 320px;
-    }
-
-    .install-banner-steps b {
-      color: #c681f4;
-    }
-
-    .install-url-box {
-      width: 100%;
-      max-width: 320px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
-      padding: 0.7rem 1rem;
-      color: #c681f4;
-      font-size: 0.85rem;
-      font-family: monospace;
-      text-align: center;
-      cursor: pointer;
-      user-select: all;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    /* ===== iOS Safari visual guide ===== */
-    .ios-guide {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .ios-steps-list {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 1rem 1.2rem;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      text-align: left;
-    }
-
-    .ios-step {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
-    .ios-step-num {
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, #c681f4, #d38080);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-
-    .share-icon-inline {
-      display: inline-block;
-      width: 22px;
-      height: 22px;
-      vertical-align: middle;
-      margin: 0 2px;
+    .splash {
       position: relative;
-      top: -1px;
+      height: 100vh;
+      height: 100dvh;
+      max-width: 640px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .splash-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      animation: ken-burns 20s ease-out infinite;
+    }
+    @keyframes ken-burns {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.1) translate(-2%, 2%); }
+    }
+    .splash-shade {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top, rgba(29, 20, 51, .95) 0%, rgba(58, 31, 110, .55) 45%, rgba(0, 0, 0, 0) 75%),
+        linear-gradient(135deg, rgba(122, 75, 209, .25), rgba(63, 176, 126, .15));
+    }
+    .splash-content {
+      position: relative; z-index: 1;
+      height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding: 0 24px calc(56px + var(--safe-bottom));
+      text-align: center;
+    }
+    .splash-tag {
+      font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+      color: #9ee6c2;
+      background: rgba(63, 176, 126, .18);
+      border: 1px solid rgba(158, 230, 194, .35);
+      padding: 6px 12px; border-radius: 999px;
+    }
+    .splash h1 { margin: 14px 0 6px; font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -.02em; }
+    .splash p { margin: 0 0 32px; font-size: 17px; font-weight: 600; opacity: .85; }
+    .splash p:has(+ .splash-sub) { margin-bottom: 8px; }
+    .splash .splash-sub { font-size: 15px; font-weight: 600; opacity: .7; }
+    .start-btn {
+      display: block;
+      width: 100%; max-width: 320px;
+      padding: 18px 24px;
+      border-radius: 20px;
+      background: linear-gradient(120deg, #8f5cf2 0%, #7a4bd1 45%, #3fb07e 100%);
+      color: #fff;
+      font-size: 17px; font-weight: 800; letter-spacing: .06em;
+      text-decoration: none;
+      box-shadow: 0 16px 36px -12px rgba(122, 75, 209, .8);
+      animation: breathe 3s ease-in-out infinite;
+    }
+    @keyframes breathe { 50% { transform: scale(1.03); } }
+    @media (prefers-reduced-motion: reduce) {
+      .splash-bg, .start-btn { animation: none; }
     }
 
-    /* Bouncing arrow pointing down */
-    .ios-arrow-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      margin-top: 0.5rem;
+    /* ===== Экран установки (обязательный) ===== */
+    .install-banner {
+      position: fixed; inset: 0; z-index: 99999;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+      padding: 32px 24px calc(32px + env(safe-area-inset-bottom, 0px));
+      background: radial-gradient(120% 90% at 50% 0%, #3a1f6e 0%, #1d1433 70%);
+      color: #fff; text-align: center;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-
-    .ios-arrow-label {
-      font-size: 0.8rem;
-      opacity: 0.6;
-      letter-spacing: 0.05em;
+    .install-banner.show { display: flex; }
+    .install-banner-icon { width: 88px; height: 88px; border-radius: 22px; box-shadow: 0 12px 30px -8px rgba(0,0,0,.6); }
+    .install-banner-title { margin: 0 0 8px; font-size: 24px; font-weight: 800; line-height: 1.2; }
+    .install-banner-subtitle { margin: 0; font-size: 16px; font-weight: 600; opacity: .8; line-height: 1.4; }
+    .install-banner-text { max-width: 360px; }
+    .install-banner-btn {
+      min-width: 240px; padding: 17px 28px; border: 0; border-radius: 20px;
+      background: linear-gradient(120deg, #8f5cf2 0%, #7a4bd1 45%, #3fb07e 100%);
+      color: #fff; font: inherit; font-size: 17px; font-weight: 800; letter-spacing: .02em;
+      box-shadow: 0 16px 36px -12px rgba(122, 75, 209, .8); cursor: pointer;
     }
-
-    .ios-bounce-arrow {
-      font-size: 2.5rem;
-      animation: ios-bounce 1.4s ease-in-out infinite;
-      line-height: 1;
-    }
-
-    @keyframes ios-bounce {
-
-      0%,
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-
-      50% {
-        transform: translateY(10px);
-        opacity: 0.7;
-      }
-    }
+    .install-banner-btn:active { transform: scale(.97); }
+    .install-banner-steps { max-width: 330px; font-size: 16px; line-height: 1.6; opacity: .92; }
+    .install-banner-steps b { color: #9ee6c2; }
+    .install-banner-steps svg { width: 1.15em; height: 1.15em; vertical-align: -0.2em; }
   </style>
 </head>
 
-<body class="bg-dark-charcoal">
-
-  <div class="relative h-screen w-screen max-w-2xl mx-auto overflow-hidden">
-    <!-- Фоновое изображение с анимацией -->
-    <div class="absolute inset-0">
-      <img src="./images/natali.JPG" alt="Background" class="w-full h-full object-cover animate-ken-burns">
-    </div>
-
-    <!-- Градиент для затемнения -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-
-    <!-- Контент -->
-    <div class="relative z-10 flex flex-col items-center justify-end h-full px-8 pb-24 text-center text-white">
-      <h1 class="text-4xl font-bold drop-shadow-lg mb-">КОМПЛЕКС "ALL INCLUSIVE"</h1>
-      <p class="text-lg mb-10 drop-shadow-md">ОСАНКА, ЛИЦО, ЯГОДИЦЫ, ПРЕСС, РУКИ</p>
-      <p class="text-lg mb-8 drop-shadow-md">Ваш путь к идеальной фигуре начинается здесь</p>
-      <a href="./main.html"
-        style="background-image: linear-gradient(to right, #c681f4 0%, #d38080  51%, #DAE2F8  100%); background-size: 200% auto;"
-        class="w-full max-w-xs text-white font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-transform duration-300 animate-pulse-slow hover:background-position-right">
-        СТАРТ
-      </a>
+<body>
+  <div class="splash">
+    <img class="splash-bg" src="images/natali.JPG" alt="">
+    <div class="splash-shade"></div>
+    <div class="splash-content">
+      <span class="splash-tag">Комплекс тренировок</span>
+      <h1>КОМБО<br>5 ПРОГРАММ</h1>
+      <p>Осанка, лицо, ягодицы, пресс, руки</p>
+      <p class="splash-sub">Ваш путь к идеальной фигуре начинается здесь</p>
+      <a class="start-btn" href="main.html">СТАРТ</a>
     </div>
   </div>
 
-  <!-- Install Banner (Forced) -->
+  <script>
+    window.addEventListener('load', () => { window.scrollTo(0, 0); });
+  </script>
+
+  <!-- Экран установки (обязательный, без крестика) -->
   <div class="install-banner" id="installBanner">
-    <div class="install-banner-header">
-      <img src="icon-192.png" alt="Icon" class="install-banner-icon">
-      <div class="install-banner-text">
-        <p class="install-banner-title" id="installTitle">Установите приложение</p>
-        <p class="install-banner-subtitle" id="installSubtitle">Для продолжения необходимо установить приложение на ваш
-          телефон</p>
-      </div>
+    <img src="icon-192.png" alt="" class="install-banner-icon">
+    <div class="install-banner-text">
+      <p class="install-banner-title" id="installTitle">Установите приложение</p>
+      <p class="install-banner-subtitle" id="installSubtitle">Для продолжения необходимо установить приложение на ваш телефон</p>
     </div>
     <button class="install-banner-btn" id="installBtn">Установить</button>
     <div class="install-banner-steps" id="installSteps"></div>
   </div>
 
   <script>
-    // Сброс позиции скролла
-    window.addEventListener('load', () => { window.scrollTo(0, 0); });
-
     // 1. Регистрация Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
     }
 
-    // 2. Логика баннера установки
+    // 2. Обязательный экран установки — логика как в «Питании»
     (function () {
       const banner = document.getElementById('installBanner');
       const btn = document.getElementById('installBtn');
       const stepsEl = document.getElementById('installSteps');
       const titleEl = document.getElementById('installTitle');
       const subtitleEl = document.getElementById('installSubtitle');
+      const SHARE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="#9ee6c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
 
-      // Если уже установлено как приложение — выходим
+      // Уже установлено как приложение — пускаем сразу
       if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) return;
 
-      // === Определение платформы ===
       const ua = navigator.userAgent || '';
-      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       const isAndroid = /Android/i.test(ua);
-
-      // === Определение WebView (Telegram, Instagram, VK, Facebook) ===
-      // ВАЖНО: Telegram iOS НЕ добавляет 'Telegram' в UA — выглядит как Safari!
-      // Настоящий Safari всегда содержит 'Version/X.X' в UA, WebView — нет
-      const isTelegramProxy = typeof window.TelegramWebviewProxy !== 'undefined';
-      const isTelegram = /Telegram/i.test(ua) || isTelegramProxy;
+      // iPad на iPadOS притворяется Mac — узнаём его по сенсорному экрану (но не Android)
+      const isIOS = !isAndroid && (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1));
+      const isTelegram = /Telegram/i.test(ua);
       const isInstagram = /Instagram/i.test(ua);
       const isFacebook = /FBAN|FBAV/i.test(ua);
       const isVK = /VKAndroidApp|vk_app/i.test(ua);
-      // iOS WebView не имеет 'Version/' в UA — именно так отличаем все встроенные браузеры от настоящего Safari
-      const isIOSWebViewByUA = isIOS && /Safari/i.test(ua) && !/Version\//i.test(ua);
-      const isWebView = isTelegram || isInstagram || isFacebook || isVK || /\bwv\b/.test(ua) || isIOSWebViewByUA;
-
-      // === Определение браузера ===
+      const isWebView = isTelegram || isInstagram || isFacebook || isVK || /\bwv\b/.test(ua);
       const isChrome = /Chrome/i.test(ua) && !/OPR|Opera|Edge|Edg|Samsung|UCBrowser|YaBrowser/i.test(ua) && !isWebView;
-      // Настоящий Safari: есть 'Version/', нет Chrome-движков, не WebView
-      const isSafari = /Safari/i.test(ua) && /Version\//i.test(ua) && !/Chrome|CriOS|FxiOS|OPiOS|mercury|UCBrowser|YaBrowser/i.test(ua) && !isWebView;
-      const isChromeIOS = /CriOS/i.test(ua);
+      const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|OPiOS|mercury|UCBrowser|YaBrowser/i.test(ua) && !isWebView;
       const isOpera = /OPR|Opera/i.test(ua);
       const isFirefox = /Firefox|FxiOS/i.test(ua);
       const isSamsung = /SamsungBrowser/i.test(ua);
@@ -352,40 +184,25 @@
       let deferredPrompt = null;
       let bannerShown = false;
 
-      // === Перехват события установки для Chrome ===
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        bannerShown = false;
         showBanner('native');
       });
 
-      // === Для iOS и WebView — показываем баннер СРАЗУ ===
-      if (isWebView) {
-        showBanner('webview');
-      } else if (isIOS && isSafari) {
-        showBanner('ios-safari');
-      } else if (isIOS && !isSafari) {
-        // Chrome iOS, Firefox iOS и другие не-Safari браузеры на iOS
-        showBanner('ios-other');
-      }
+      if (isWebView) showBanner('webview');
+      else if (isIOS && isSafari) showBanner('ios-safari');
+      else if (isIOS && !isSafari) showBanner('ios-other');
 
-      // === Для Chrome/Android/Desktop — ждём 500мс на beforeinstallprompt ===
       if (!bannerShown) {
         setTimeout(() => {
           if (bannerShown) return;
-          if (isAndroid && !deferredPrompt) {
-            showBanner('android-other');
-          } else if (!isAndroid && !isIOS && !deferredPrompt) {
-            if (isChrome) {
-              showBanner('desktop-chrome');
-            } else {
-              showBanner('desktop-other');
-            }
-          }
+          if (isAndroid && !deferredPrompt) showBanner('android-other');
+          else if (!isAndroid && !isIOS && !deferredPrompt) showBanner(isChrome ? 'desktop-chrome' : 'desktop-other');
         }, 500);
       }
 
-      // === Название текущего браузера ===
       function getBrowserName() {
         if (isTelegram) return 'Telegram';
         if (isInstagram) return 'Instagram';
@@ -397,173 +214,99 @@
         if (isEdge) return 'Edge';
         if (isYandex) return 'Яндекс Браузер';
         if (isUC) return 'UC Browser';
-        return 'этот браузер';
+        return 'Этот браузер';
       }
-
-      // === Открыть в Chrome через Android Intent ===
       function openInChrome() {
-        const currentUrl = window.location.href;
-        const url = new URL(currentUrl);
-        const intentUrl = 'intent://' + url.host + url.pathname + url.search + url.hash +
-          '#Intent;scheme=https;package=com.android.chrome;end';
-        window.location.href = intentUrl;
+        const url = new URL(window.location.href);
+        window.location.href = 'intent://' + url.host + url.pathname + url.search + url.hash + '#Intent;scheme=https;package=com.android.chrome;end';
       }
-
-      // === Открыть в Safari через URL scheme (iOS) ===
       function openInSafari() {
-        const currentUrl = window.location.href;
-        // x-safari-https:// работает в Telegram, Chrome iOS и других WebView
-        const safariUrl = currentUrl
-          .replace(/^https:\/\//, 'x-safari-https://')
-          .replace(/^http:\/\//, 'x-safari-http://');
-        window.location.href = safariUrl;
+        window.location.href = window.location.href.replace(/^https:\/\//, 'x-safari-https://').replace(/^http:\/\//, 'x-safari-http://');
       }
-
-      // === Показать кнопку копирования ссылки (десктоп) ===
-      function showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl) {
-        const currentUrl = window.location.href;
+      function copyLink() {
+        const done = () => { btn.textContent = '✓ Скопировано!'; setTimeout(() => { btn.textContent = 'Скопировать ссылку'; }, 2500); };
+        navigator.clipboard.writeText(window.location.href).then(done).catch(() => {
+          const ta = document.createElement('textarea');
+          ta.value = window.location.href; ta.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          done();
+        });
+      }
+      function desktopOther() {
         titleEl.textContent = 'Откройте сайт в Chrome';
         subtitleEl.textContent = 'Для установки нужен Google Chrome';
         btn.textContent = 'Скопировать ссылку';
         btn.style.display = 'inline-block';
         stepsEl.innerHTML = 'Вставьте ссылку в <b>Google Chrome</b> — появится кнопка <b>«Установить»</b>';
-        btn.onclick = () => {
-          navigator.clipboard.writeText(currentUrl).then(() => {
-            btn.textContent = '✓ Скопировано!';
-            setTimeout(() => { btn.textContent = 'Скопировать ссылку'; }, 2500);
-          }).catch(() => {
-            const ta = document.createElement('textarea');
-            ta.value = currentUrl;
-            ta.style.cssText = 'position:fixed;opacity:0';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-            btn.textContent = '✓ Скопировано!';
-            setTimeout(() => { btn.textContent = 'Скопировать ссылку'; }, 2500);
-          });
-        };
+        btn.onclick = copyLink;
       }
 
-      // === Показать баннер ===
       function showBanner(mode) {
         if (bannerShown) return;
         bannerShown = true;
         banner.classList.add('show');
 
         if (mode === 'native') {
-          // ✅ Chrome: нативная установка
           titleEl.textContent = 'Установите приложение';
-          subtitleEl.textContent = 'Быстрый доступ с экрана "Домой"';
+          subtitleEl.textContent = 'Быстрый доступ с экрана «Домой»';
           btn.textContent = 'Установить';
           btn.style.display = 'inline-block';
           stepsEl.innerHTML = '';
           btn.onclick = async () => {
-            if (deferredPrompt) {
-              deferredPrompt.prompt();
-              const { outcome } = await deferredPrompt.userChoice;
-              if (outcome === 'accepted') {
-                banner.classList.remove('show');
-              }
-              deferredPrompt = null;
-            }
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') banner.classList.remove('show');
+            deferredPrompt = null;
           };
-
         } else if (mode === 'ios-safari') {
-          // 📱 iOS Safari: обязательная установка — объясняем ЗАЧЕМ и КАК
-
+          titleEl.textContent = 'Добавьте на главный экран';
+          subtitleEl.textContent = 'Для быстрого доступа как приложение';
           btn.style.display = 'none';
-          stepsEl.innerHTML = `
-              <div class="ios-guide">
-                <div class="ios-steps-list">
-                  <div class="ios-step">
-                    <div class="ios-step-num">1</div>
-                    <span>Нажмите
-                      <svg class="share-icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2v13M7 7l5-5 5 5"/>
-                        <path d="M20 16v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4"/>
-                      </svg>
-                      <b>Поделиться</b> — кнопка внизу экрана</span>
-                  </div>
-                  <div class="ios-step">
-                    <div class="ios-step-num">2</div>
-                    <span>Прокрутите список вниз, найдите<br><b>«На экран «Домой»»</b></span>
-                  </div>
-                  <div class="ios-step">
-                    <div class="ios-step-num">3</div>
-                    <span>Нажмите <b>«Добавить»</b> — готово! 🎉</span>
-                  </div>
-                </div>
-                <div class="ios-arrow-wrap">
-                  <span class="ios-arrow-label">кнопка «Поделиться» внизу</span>
-                  <span class="ios-bounce-arrow">↓</span>
-                </div>
-              </div>`;
-
+          stepsEl.innerHTML = 'Нажмите <b>Поделиться</b> ' + SHARE_ICON + ' внизу экрана,<br>затем <b>«На экран «Домой»»</b>';
         } else if (mode === 'ios-other') {
-          // 📱 iOS, не Safari → кнопка "Открыть в Safari" + ссылка на случай если не сработала
-          const browserName = getBrowserName();
-          const currentUrl = window.location.href;
-          titleEl.textContent = 'Требуется Safari';
-          subtitleEl.textContent = 'Установка из ' + browserName + ' не работает. Нужен Safari.';
-          btn.textContent = '🧭 Открыть в Safari';
+          titleEl.textContent = 'Откройте в Safari';
+          subtitleEl.textContent = getBrowserName() + ' не поддерживает установку';
+          btn.textContent = 'Открыть в Safari';
           btn.style.display = 'inline-block';
-          stepsEl.innerHTML =
-            '<p style="margin:0 0 0.8rem;font-size:0.95rem;">Нажмите кнопку — откроется Safari.<br>' +
-            'Если не сработало, скопируйте ссылку и откройте её в Safari вручную:</p>' +
-            '<input readonly class="install-url-box" value="' + currentUrl + '">';
-          btn.onclick = () => { openInSafari(); };
-
+          stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> → <b>«На экран Домой»</b>';
+          btn.onclick = openInSafari;
         } else if (mode === 'android-other') {
-          // 🤖 Android, не Chrome → перенаправить в Chrome
-          const browserName = getBrowserName();
           titleEl.textContent = 'Откройте в Chrome';
-          subtitleEl.textContent = browserName + ' не поддерживает установку';
+          subtitleEl.textContent = getBrowserName() + ' не поддерживает установку';
           btn.textContent = 'Открыть в Chrome';
           btn.style.display = 'inline-block';
           stepsEl.innerHTML = 'В Chrome появится кнопка <b>«Установить»</b>';
-          btn.onclick = () => { openInChrome(); };
-
+          btn.onclick = openInChrome;
         } else if (mode === 'webview') {
-          // 💬 Telegram / Instagram / VK / Facebook
-          const browserName = getBrowserName();
+          const name = getBrowserName();
           if (isAndroid) {
             titleEl.textContent = 'Откройте в Chrome';
-            subtitleEl.textContent = 'Установка из ' + browserName + ' невозможна';
+            subtitleEl.textContent = 'Установка из ' + name + ' невозможна';
             btn.textContent = 'Открыть в Chrome';
             btn.style.display = 'inline-block';
             stepsEl.innerHTML = 'В Chrome появится кнопка <b>«Установить»</b>';
-            btn.onclick = () => { openInChrome(); };
+            btn.onclick = openInChrome;
           } else if (isIOS) {
-            const currentUrl = window.location.href;
-            titleEl.textContent = 'Требуется Safari';
-            subtitleEl.textContent = 'Из ' + browserName + ' установить приложение нельзя. Нужен Safari.';
-            btn.textContent = '🧭 Открыть в Safari';
+            titleEl.textContent = 'Откройте в Safari';
+            subtitleEl.textContent = 'Установка из ' + name + ' невозможна';
+            btn.textContent = 'Открыть в Safari';
             btn.style.display = 'inline-block';
-            stepsEl.innerHTML = '<p style="margin-bottom:0.8rem; font-size:0.95rem;">Нажмите кнопку выше.<br>Если она не сработала, скопируйте эту ссылку и откройте её в Safari вручную:</p>' +
-              '<input readonly class="install-url-box" value="' + currentUrl + '">';
-            btn.onclick = () => { openInSafari(); };
+            stepsEl.innerHTML = 'В Safari нажмите <b>Поделиться</b> → <b>«На экран Домой»</b>';
+            btn.onclick = () => { navigator.clipboard.writeText(window.location.href).catch(() => {}); openInSafari(); };
           } else {
-            showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
+            desktopOther();
           }
-
         } else if (mode === 'desktop-chrome') {
-          // ✅ Chrome без промпта (нет HTTPS или критерии PWA не выполнены)
           titleEl.textContent = 'Установите приложение';
           subtitleEl.textContent = 'Нажмите кнопку установки в адресной строке';
           btn.style.display = 'none';
-          stepsEl.innerHTML =
-            'Найдите иконку <b>⊕</b> или <b>💻</b> в правой части адресной строки Chrome<br>' +
-            'и нажмите <b>«Установить»</b>.<br><br>' +
-            '<span style="opacity:0.6;font-size:0.85em">Если иконки нет — сайт должен быть открыт по HTTPS-адресу, а не из файла.</span>';
-
+          stepsEl.innerHTML = 'Найдите иконку <b>⊕</b> или <b>💻</b> в правой части адресной строки Chrome<br>и нажмите <b>«Установить»</b>.<br><br>' +
+            '<span style="opacity:.6;font-size:.85em">Если иконки нет — сайт должен быть открыт по HTTPS-адресу, а не из файла.</span>';
         } else if (mode === 'desktop-other') {
-          // 🖥️ Десктоп (Firefox, Edge, Safari и т.д.)
-          showDesktopChromePrompt(titleEl, subtitleEl, btn, stepsEl);
+          desktopOther();
         }
       }
-
-      // Крестик закрытия убран — установка принудительная
     })();
   </script>
 </body>
